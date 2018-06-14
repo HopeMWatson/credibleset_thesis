@@ -30,12 +30,16 @@ pp <- pp/sum(pp) # must sum to 1
 ## That is - A sort the snps by decreasing posterior probability
 ## hint: look at the sort function, and the option "decreasing"
 ?sort
+dcrpp <- pp2[order(-pp2)]
 
 ## B find how many SNPs are needed to get reach specific summed PP
 ## hint: look at the cumsum function
 ?cumsum
 
 target <- 0.9
+
+snps_needed <- length(which(cumsum(pp2) <= 0.9))
+##answer gives 8L which is 8 SNPS needed. Visibly checked as 9th value is 0.937 cumprob
 
 ## 2. use some code from the simGWAS vignette to simulate some p values
 
