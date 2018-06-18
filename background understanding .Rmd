@@ -1,0 +1,43 @@
+---
+title: "Thesis Background"
+output: word_document
+---
+#Basic information 
+##Credible set and credible interval 
+Credible set - confidence that the causal variant is included
+A credible set has fixed boundaries and unknown parameter (mean, proportion, rate, etc.)
+Contrast to frequentist where parameter is fixed and boundaries are not. Very importantly in frequentist statisitcs it only uses the data to derive these measures, whereas bayesian utilises prior distribution. In genetics this is important, so we are able to annotate information about genetic variation, such as if it is in a coding or non-coding region. 
+
+Confidence - sum of the posterior probabilities 
+
+##What is fine-mapping
+A process to refine these lists of associated variants to a credible set most likely to include the causal variant. 
+Assign well-calibrated probabiliites of causalility to candidate variants. Then connect these variants to likely genes - functional annotation. 
+
+#Notes from Reading
+##Strategies for fine-mapping complex traits 
+###Intro
+eQTL - expression quantitative trait loci - level of gene expression in a particular tissue
+###Principles of fine-mapping
+1)P-values are influenced by study specific factors - power (related to n) and MAF and OR 
+2)LD with the lead SNP - still ignores study properties, because higher power can differentiate SNPs in higher LD. 
+3)Bayesian Framework 
+###Bayesian Framework
+Bayes Factor (BF) - ratio of the likelihood probability of two competing hypotheses
+Each variant is measured using a bayes factor and used to give posterior probability.
+Posterior Probability (PP) ratio of evidence for each variant versus all others. 
+
+##Evaluating the Performance of Fine-Mapping Strategies at Common Variant GWAS Loci 
+
+
+
+
+#Data Source
+##1000 Genomes Project 
+Provides reference panel data. This is the gold standard data that still has coverage issues. 
+
+#Scope of problem 
+When we analyse credible sets, we assume that the true causal variant is contained in that set. However even the gold standard for reference panel data has coverage issues, that is we aren't sure we are considering the causal variant in the list of candidate variants we brought forth. Coverage issues become worse as the odds ratio (OR) and risk allele frequency (RAF) decrease. 
+
+#Scope of project
+This project is to improve coverage in the ideal situation - that is there is only one causal variant being considered in the credible set. It also does not address that a causal variant may be shared for different disorders - that is this does not address colocalization. Finally this study does not address any trans-ancestry differences or geographical analysis of subpopulations and their respective potential subtypes. 

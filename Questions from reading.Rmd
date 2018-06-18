@@ -1,0 +1,22 @@
+---
+title: "Questions from reading/meeting agenda"
+output: word_document 
+---
+
+#Questions from reading
+1) How is a credible set different from a credible interval? Is a credible set a collection of credible intervals? 
+
+2) Why does the lead SNP cause signal noise?
+
+3) Go over plots: 
+```{r}
+knitr::include_graphics('./conditional association analysis conditioning on the lead SNP.jpg')
+```
+
+4) Why is the Bayesian method not influenced by odds ratios and RAF/MAF differences or the power of the study (related to n)? Doesn't n always influence how much we understand LD? 
+
+5)Where in the Bayesian framework do we incorporate functional annotations? How are these appropriately quantified into the bayes factor or are they already accounted for in the prior (due to exisitng projects such as fGWAS)? 
+
+6)Overall I am having trouble framing what the solution looks like - would like to go over this so I understand what I am aiming for in the following weeks.
+
+7) Which subset of dataset will I be using on 1000 genomes? Do I need to satisfy any conditions or assumptions of the data for my specific analysis?
