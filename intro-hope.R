@@ -42,7 +42,39 @@ snps_needed <- length(which(cumsum(pp2) <= 0.9))
 ##answer gives 8L which is 8 SNPS needed. Visibly checked as 9th value is 0.937 cumprob
 
 ## 2. use some code from the simGWAS vignette to simulate some p values
+##Only code added by me was the transformation of z values to p values 
+library(simGWAS)
 
+
+set.seed(42)
+nsnps <- 100
+nhaps <- 1000
+lag <- 5 # genotypes are correlated between neighbouring variants
+maf <- runif(nsnps+lag,0.05,0.5) # common SNPs
+laghaps <- do.call("cbind", lapply(maf, function(f) rbinom(nhaps,1,f)))
+haps <- laghaps[,1:nsnps]
+for(j in 1:lag) 
+  haps <- haps + laghaps[,(1:nsnps)+j]
+haps <- round(haps/(lag+1))
+
+snps <- colnames(haps) <- paste0("s",1:nsnps)
+freq <- as.data.frame(haps+1)
+freq$Probability <- 1/nrow(freq)
+sum(freq$Probability)
+
+
+CV=sample(snps,1)
+g1 <- c(1.4)
+
+FP <- make_GenoProbList(snps=snps,W=CV,freq=freq)
+z <- expected_z_score(N0=1000, # number of controls
+                      N1=1000, # number of cases
+                      snps=snps, # column names in freq of SNPs for which Z scores should be generated
+                      W=CV, # causal variants, subset of snps
+                      gamma.W=g1, # odds ratios
+                      freq=freq, # reference haplotypes
+                      GenoProbList=FP) # FP above
+p <- 2*pnorm(-abs(z))
 ## 3. run the result through finemap.abf() to get posterior probabilities
 
 ## 4. use your code from 1 to find the snps in the credible set for these data.
