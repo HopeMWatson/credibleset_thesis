@@ -30,7 +30,7 @@ pp <- pp/sum(pp) # must sum to 1
 ## That is - A sort the snps by decreasing posterior probability
 ## hint: look at the sort function, and the option "decreasing"
 ?sort
-dcrpp <- pp2[order(-pp2)]
+dcrpp <- pp[order(-pp)]
 
 ## B find how many SNPs are needed to get reach specific summed PP
 ## hint: look at the cumsum function
