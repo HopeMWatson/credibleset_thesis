@@ -4,6 +4,12 @@ output: word_document
 ---
 #Basic information 
 ##Credible set and credible interval 
+
+Credible set, is a set of objects, where it is believed one of the objects is the causal variant. Each object is a SNP, that has an assigned posterior probability of being the causal variant. 
+
+The size of the credible set is the probability the credible set contains the causal variant. 
+
+
 Credible set - confidence that the causal variant is included
 A credible set has fixed boundaries and unknown parameter (mean, proportion, rate, etc.)
 Contrast to frequentist where parameter is fixed and boundaries are not. Very importantly in frequentist statisitcs it only uses the data to derive these measures, whereas bayesian utilises prior distribution. In genetics this is important, so we are able to annotate information about genetic variation, such as if it is in a coding or non-coding region. 
