@@ -83,10 +83,10 @@ zsim <- simulated_z_score(N0=3000, # number of controls
           nrep=3)
                                    
                                    
-p <- 2*pnorm(-abs(z))
-                                   typeof(p)
-listp <- list(p)
-pp <- finemap.abf(listp)
+p <- 2*pnorm(-abs(zsim))
+typeof(p) #checking p is double, will cast to list
+listp <- list(p) # casting p-values as list 
+pp <- finemap.abf(listp) #running finemap.abf as list 
 ## 3. run the result through finemap.abf() to get posterior probabilities
                                    library(coloc)
 setClass("simdata",
