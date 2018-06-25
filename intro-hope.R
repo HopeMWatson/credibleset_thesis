@@ -84,9 +84,19 @@ zsim <- simulated_z_score(N0=3000, # number of controls
                                    
                                    
 p <- 2*pnorm(-abs(zsim))
-typeof(p) #checking p is double, will cast to list
-listp <- list(p) # casting p-values as list 
-pp <- finemap.abf(listp) #running finemap.abf as list 
+
+#Need to assign necessary values to create a dataset that finemap.abf will recognise and run 
+pvalues <- p 
+N=2000
+MAF <- colMeans(haps)
+type="cc"
+s <- 0.5
+
+
+my.res <- finemap.abf(dataset=list(pvalues=p, N=1000, MAF=MAF, type="cc",s=0.5))
+head(my.res)
+tail(my.res)
+
 ## 3. run the result through finemap.abf() to get posterior probabilities
 
 ## 4. use your code from 1 to find the snps in the credible set for these data.
