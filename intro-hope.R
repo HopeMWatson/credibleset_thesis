@@ -29,16 +29,29 @@ pp <- pp/sum(pp) # must sum to 1
 
 ## That is - A sort the snps by decreasing posterior probability
 ## hint: look at the sort function, and the option "decreasing"
-?sort
-dcrpp <- pp[order(-pp)]
+##dcrpp <- pp[order(-pp)]
+
+dcrpp <- sort(pp, decreasing = TRUE)
+print(dcrpp)
 
 ## B find how many SNPs are needed to get reach specific summed PP
 ## hint: look at the cumsum function
-?cumsum
 
-target <- 0.9
+snps_needed <- length(which(cumsum(dcrpp) >= 0.9
+snps_needed <- length(which(cumsum(dcrpp) >= 0.9))
+            
+snps_needed <- length(which(cumsum(dcrpp) >= 0.9))
+cumsum(dcrpp)
 
-snps_needed <- length(which(cumsum(pp2) >= 0.9))
+                     
+##still fundamental problem with this code               
+rm(snps_needed)
+##snps_needed2 <- lapply(dcrpp, function(x) which(cumsum(dcrpp[x:length(dcrpp)]) >= 0.9)[1])                    
+                     
+snps_needed <- (cumsum(dcrpp)) >= 0.9
+print(snps_needed)
+
+
 ##answer gives 8L which is 8 SNPS needed. Visibly checked as 9th value is 0.937 cumprob
 
 ## 2. use some code from the simGWAS vignette to simulate some p values
@@ -74,28 +87,41 @@ z <- expected_z_score(N0=1000, # number of controls
                       gamma.W=g1, # odds ratios
                       freq=freq, # reference haplotypes
                       GenoProbList=FP) # FP above
-zsim <- simulated_z_score(N0=3000, # number of controls
-              N1=2000, # number of cases
-              snps=snps, # column names in freq of SNPs for which Z scores should be generated
-              W=CV, # causal variants, subset of snps
-              gamma.W=g1, # log odds ratios
-              freq=freq, # reference haplotypes
-          nrep=3)
-                                   
-                                   
+zsim <- simulated_z_score(N0=1000, # number of controls
+                          N1=1000, # number of cases
+                          snps=snps, # column names in freq of SNPs for which Z scores should be generated
+                          W=CV, # causal variants, subset of snps
+                          gamma.W=g1, # log odds ratios
+                          freq=freq, # reference haplotypes
+                          nrep=3)
+
+
 p <- 2*pnorm(-abs(zsim))
 
 #Need to assign necessary values to create a dataset that finemap.abf will recognise and run 
 pvalues <- p 
-N=2000
+p1 <- pvalues[1,, drop=FALSE]
+p1.t <- t(p1)
+p2 <- pvalues[2,, drop=FALSE]
+p3 <- pvalues[3,, drop=FALSE]
+N=1000
 MAF <- colMeans(haps)
 type="cc"
 s <- 0.5
 
+help("finemap.abf")
 
-my.res <- finemap.abf(dataset=list(pvalues=p, N=1000, MAF=MAF, type="cc",s=0.5))
+##example code syntax from vignette 
+##my.res <- finemap.abf(dataset=list(beta=b1$beta, varbeta=b1$varbeta, N=nrow(X1),sdY=sd(Y1),type="quant"))
+
+
+my.res <- finemap.abf(dataset=list(pvalues=p1.t, N=1000, MAF=MAF, s=0.5, type="cc"), p1=1e-04)
 head(my.res)
 tail(my.res)
+print(MAF)
+
+rm(my.res)
+print(p1)
 
 ## 3. run the result through finemap.abf() to get posterior probabilities
 
