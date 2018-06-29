@@ -1,0 +1,26 @@
+---
+title: "Foundational Definitions and Concepts"
+output: pdf_document
+---
+Defining and understanding key terms:
+
+In frequentest statistics probability comes into play before collecting data. That is alpha level is predetermined and static. 
+95% probability that we will collect data that produces and interval that contains the true parameter. 
+
+In Bayesian statistics probability comes into play after collecting data. Analysis probability after observing the data. Based on data, now think there is 95% probability that the true parameter is in the interval. 
+
+
+
+#credible interval
+
+#credible set
+
+#size of credible set
+
+#coverage of credible set
+
+#Posterior Probability 
+
+#entropy
+
+#Fine Mapping 
