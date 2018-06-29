@@ -37,8 +37,8 @@ print(dcrpp)
 ## B find how many SNPs are needed to get reach specific summed PP
 ## hint: look at the cumsum function
 
-snps_needed <- length(which(cumsum(dcrpp) >= 0.9
-snps_needed <- length(which(cumsum(dcrpp) >= 0.9))
+#snps_needed <- length(which(cumsum(dcrpp) >= 0.9
+#snps_needed <- length(which(cumsum(dcrpp) >= 0.9))
             
 snps_needed <- length(which(cumsum(dcrpp) >= 0.9))
 cumsum(dcrpp)
@@ -97,18 +97,18 @@ zsim <- simulated_z_score(N0=1000, # number of controls
 
 
 p <- 2*pnorm(-abs(zsim))
-                                   
+
 ## 3. run the result through finemap.abf() to get posterior probabilities
+
 #Need to assign necessary values to create a dataset that finemap.abf will recognise and run 
 pvalues <- p 
 p1 <- pvalues[1,, drop=FALSE]
+##this is where things started to go wrong. 
 p1.t <- t(p1)
 p2 <- pvalues[2,, drop=FALSE]
 p3 <- pvalues[3,, drop=FALSE]
-N=1000
 MAF <- colMeans(haps)
-type="cc"
-s <- 0.5
+
 
 help("finemap.abf")
 
@@ -129,6 +129,12 @@ print(p1)
 ## 4. use your code from 1 to find the snps in the credible set for these data.
 ## Is the true (simulated) causal variant in the set?
 ## Can you wrap this code in a function, that will take a PP vector, target, and which snp is true causal variant, and return TRUE/FALSE according to whether the causal variant is in the set?
+
+##need to create df where pp is tied to snps and asking if assigned CV is in the set. 
+
+dfppsnps <- rbind(p1, snps) #if data is transposed and p1.t is used, cbind, not rbind needs to be used.
+CVpresent <- function(y){return(x)}
+
 
 ## For bonus points, can you extent the above function to take a *vector* of possible targets and return a vector of TRUE/FALSE?
 target <- c(0.5,0.9,0.99) # vector of targets
