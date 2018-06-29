@@ -97,7 +97,8 @@ zsim <- simulated_z_score(N0=1000, # number of controls
 
 
 p <- 2*pnorm(-abs(zsim))
-
+                                   
+## 3. run the result through finemap.abf() to get posterior probabilities
 #Need to assign necessary values to create a dataset that finemap.abf will recognise and run 
 pvalues <- p 
 p1 <- pvalues[1,, drop=FALSE]
@@ -123,7 +124,7 @@ print(MAF)
 rm(my.res)
 print(p1)
 
-## 3. run the result through finemap.abf() to get posterior probabilities
+
 
 ## 4. use your code from 1 to find the snps in the credible set for these data.
 ## Is the true (simulated) causal variant in the set?
