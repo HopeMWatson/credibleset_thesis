@@ -129,5 +129,11 @@ value$size
 value$contained
 
 print(split)
+                                   
+                  
+##NEW DATAFRAME IS CREATED FROM LIST OF MY.RES FILES
+##simple coverage analysis is 
+                                   
+Coverage = sumif value$contained=TRUE
 
 
