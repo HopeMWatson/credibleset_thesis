@@ -101,10 +101,10 @@ p <- 2*pnorm(-abs(zsim))
 ## 3. run the result through finemap.abf() to get posterior probabilities
 #Need to assign necessary values to create a dataset that finemap.abf will recognise and run 
 pvalues <- p 
-p1 <- pvalues[1,, drop=FALSE]
+p1 <- pvalues[1,]
 p1.t <- t(p1)
-p2 <- pvalues[2,, drop=FALSE]
-p3 <- pvalues[3,, drop=FALSE]
+p2 <- pvalues[2,]
+p3 <- pvalues[3,]
 
 MAF <- colMeans(haps)
 
