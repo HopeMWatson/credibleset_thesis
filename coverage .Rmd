@@ -1,0 +1,322 @@
+---
+title: "Coverage simulations"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#Load libraries 
+```{r}
+  library(devtools)
+  library(coloc)
+  library(simGWAS)
+```
+
+#Functions for Simulations
+##SimRef 
+This is the refence panel information of haplotypes and SNPs. Derives Minor Allele Frequency (MAF) for each SNP. 
+
+```{r}
+simref <- function(nsnps=100,nhaps=1000,lag=5) {
+  maf <- runif(nsnps+lag,0.05,0.5) # common SNPs
+  laghaps <- do.call("cbind", lapply(maf, function(f) rbinom(nhaps,1,f)))
+  haps <- laghaps[,1:nsnps]
+  for(j in 1:lag) 
+    haps <- haps + laghaps[,(1:nsnps)+j]
+  haps <- round(haps/(lag+1))
+  
+  snps <- colnames(haps) <- paste0("s",1:nsnps)
+  freq <- as.data.frame(haps+1)
+  freq$Probability <- 1/nrow(freq)
+  freq
+}
+```
+
+##SimData 
+Uses SimGWAS to create p-values for each SNP
+```{r}
+simdata <- function(freq,OR=1.5,nrep=10,N0=1000,N1=1000) {
+  snps <- colnames(freq)[-ncol(freq)] # snp names
+  CV=sample(snps,1) # random - different each time
+  
+  FP <- make_GenoProbList(snps=snps,W=CV,freq=freq)
+  zsim <- simulated_z_score(N0=N0, # number of controls
+                            N1=N1, # number of cases
+                            snps=snps, # column names in freq of SNPs for which Z scores should be generated
+                            W=CV, # causal variants, subset of snps
+                            gamma.W=log(OR), # log odds ratios
+                            freq=freq, # reference haplotypes
+                            nrep=nrep)
+  p <- 2*pnorm(-abs(zsim))
+}
+```
+
+##Finemap.abf
+Create poster probabilities for each SNP from simulated p-values using approximate bayes factors. 
+Must specify list of arguements that comply with finemap.abf.
+
+See: 
+```{r}
+help("finemap.abf")
+```
+
+
+```{r}
+  MAF <- colMeans(freq[,snps]-1)
+  PP <- matrix(0,nrow(p),ncol(p)) # this will hold the posterior probs
+  results <- lapply(1:nrep, function(i) {
+    tmp <- subset(finemap.abf(dataset=list(pvalues=p[i,], N=1000, MAF=MAF, s=0.5, type="cc"), p1=1e-04),snp!="null")
+    tmp$SNP.PP <- tmp$SNP.PP/sum(tmp$SNP.PP)
+    colnames(tmp) <- sub("\\.$","",colnames(tmp))
+    colnames(tmp) <- sub("SNP.PP","PP",colnames(tmp))
+    tmp$CV <- sub("SNP.","",tmp$snp)==sub("s","",CV)
+    tmp[,c("snp","pvalues","MAF","PP","CV")]
+  })
+  results
+}
+```
+
+##Credible Set
+Gives a refined list of SNPs that are intended to contain the causal variant. 
+```{r}
+  credset <- function(pp, causal, thr=0.9,do.order=TRUE) {
+    o <- if(do.order) {
+      order(pp,decreasing=TRUE)
+    } else {
+      sample(seq_along(pp))
+    }
+    cumpp <- cumsum(pp[o])
+    
+    ## which is the first snp sums to cumsum > thr
+    wh <- which(cumpp > thr)[1]
+    wh
+    
+    ## these are the variants in the cred set
+    credset <- o[1:wh]
+    
+    ## check their pp should sum to
+    ## message("credset size: ",sum(pp[ credset ]))
+    ## message("causal variant in credset? ", causal %in% credset)
+    
+    return(list(credset=credset,
+                thr=thr,
+                size=sum( pp[credset] ),
+                contained=causal %in% credset))
+  }
+```
+
+#Generating Credible Set and Calculating Coverage 
+Runs dataframe through credible set function and returns the coverage. 
+Coverage is defined as the number of times the credible set contains the causal variant out of the total number of times the simulation was run. 
+```{r}
+## use the functions for one scenario
+wrapper <- function(thr=0.9,...) {
+  data <- simdata(freq,...) ## data is a list of data.frames
+  class(data)
+  length(data)
+  class(data[[1]])
+  ## look at the first one
+  head(data[[1]])
+  summary(data[[1]])
+  
+  ## work out the credsets
+  cs <- lapply(data, function(d) {
+    tmp.ord <- credset(d$PP, which(d$CV), thr=thr)
+    tmp.noord <- credset(d$PP, which(d$CV), do.order=FALSE,thr=thr)
+    data.frame(order=c(TRUE,FALSE),
+               thr=tmp.ord$thr,
+               size=c(tmp.ord$size,tmp.noord$size),
+               nvar=c(length(tmp.ord$credset),
+                      length(tmp.noord$credset)),
+               covered=c(tmp.ord$contained,
+                         tmp.noord$contained))
+  })
+  cs <- do.call("rbind",cs)
+  cs.ord <- subset(cs,cs$order==TRUE)
+  cs.noord <- subset(cs,cs$order==FALSE)
+  
+  ## what was the coverage?
+  c(size.ord=mean(cs.ord$size), cov.ord=mean(cs.ord$covered),
+    size.noord=mean(cs.noord$size), cov.noord=mean(cs.noord$covered))
+}
+```
+
+#Generating Different Scenarios with Varying Values.
+This section explores how changing each of the variables listed change the coverage vs. credible set size. Number of simulations is held consist throughout at 200 and 95% credible interval.  
+
+
+##Ordering/No-Ordering
+Holding arguements at OR=1.1 N=1000 s=0.5 thr=0.9
+
+Ordering/No-Ordering Under "Base Arguements"
+```{r}
+## only need one reference
+freq <- simref()
+## run the simulation 20 times
+results <- replicate(200,wrapper())
+## look at the average result - how well do size.ord and cov.ord match?  how about size.noord and cov.noord?
+rowMeans(results)
+
+## can put confidence intervals on like this (see https://en.wikipedia.org/wiki/Standard_error)
+se <- apply(results,1,function(x) sd(x)/sqrt(length(x)))
+mn <- rowMeans(results)
+cbind(average=mn, lci=mn - 1.96*se, uci=mn + 1.96*se)
+```
+
+
+##Target credible set sizes 
+####thr parameter
+Holding arguements at OR=1.1 N=1000 s=0.5 
+Varying thr values: 0.5, 0.9, 0.99
+
+Threshold=0.5
+```{r}
+## only need one reference
+freq <- simref()
+## run the simulation 20 times
+## different target credible set size
+results <- replicate(1000,wrapper(OR=1.1,thr=0.5))
+rowMeans(results)
+
+## can put confidence intervals on like this (see https://en.wikipedia.org/wiki/Standard_error)
+se <- apply(results,1,function(x) sd(x)/sqrt(length(x)))
+mn <- rowMeans(results)
+cbind(average=mn, lci=mn - 1.96*se, uci=mn + 1.96*se)
+```
+
+Threshold=0.9
+```{r}
+## only need one reference
+freq <- simref()
+## run the simulation 20 times
+## different target credible set size
+results <- replicate(1000,wrapper(OR=1.1,thr=0.9))
+rowMeans(results)
+
+## can put confidence intervals on like this (see https://en.wikipedia.org/wiki/Standard_error)
+se <- apply(results,1,function(x) sd(x)/sqrt(length(x)))
+mn <- rowMeans(results)
+cbind(average=mn, lci=mn - 1.96*se, uci=mn + 1.96*se)
+```
+
+Threshold=0.99
+```{r}
+## only need one reference
+freq <- simref()
+## run the simulation 20 times
+## different target credible set size
+results <- replicate(1000,wrapper(OR=1.1,thr=0.99))
+rowMeans(results)
+
+## can put confidence intervals on like this (see https://en.wikipedia.org/wiki/Standard_error)
+se <- apply(results,1,function(x) sd(x)/sqrt(length(x)))
+mn <- rowMeans(results)
+cbind(average=mn, lci=mn - 1.96*se, uci=mn + 1.96*se)
+```
+
+
+
+##Effect sizes 
+####OR parameter
+Holding arguements at OR=1.1 N=1000 s=0.5 thr=0.9
+Varying the Effect Size (OR) Values: 1.1, 1.2, 1.5
+```{r}
+## only need one reference
+freq <- simref()
+## run the simulation 20 times
+## different target credible set size
+results <- replicate(1000,wrapper(OR=1.1))
+rowMeans(results)
+
+## can put confidence intervals on like this (see https://en.wikipedia.org/wiki/Standard_error)
+se <- apply(results,1,function(x) sd(x)/sqrt(length(x)))
+mn <- rowMeans(results)
+cbind(average=mn, lci=mn - 1.96*se, uci=mn + 1.96*se)
+```
+
+OR=1.2
+```{r}
+## only need one reference
+freq <- simref()
+## run the simulation 20 times
+## different target credible set size
+results <- replicate(1000,wrapper(OR=1.2))
+rowMeans(results)
+
+## can put confidence intervals on like this (see https://en.wikipedia.org/wiki/Standard_error)
+se <- apply(results,1,function(x) sd(x)/sqrt(length(x)))
+mn <- rowMeans(results)
+cbind(average=mn, lci=mn - 1.96*se, uci=mn + 1.96*se)
+```
+
+OR=1.5
+```{r}
+## only need one reference
+freq <- simref()
+## run the simulation 20 times
+## different target credible set size
+results <- replicate(1000,wrapper(OR=1.5))
+rowMeans(results)
+
+## can put confidence intervals on like this (see https://en.wikipedia.org/wiki/Standard_error)
+se <- apply(results,1,function(x) sd(x)/sqrt(length(x)))
+mn <- rowMeans(results)
+cbind(average=mn, lci=mn - 1.96*se, uci=mn + 1.96*se)
+```
+
+##Sample sizes 
+Holding arguements at OR=1.1 s=0.5 thr=0.9
+Varying the Sample Size (N) Values: N=1000, 5000, 10000
+(set N0=1000, N1=1000 by default, can try N0=5000, N1=5000, or even N0=10000, N1=10000). 
+
+N=1000
+```{r}
+## only need one reference
+freq <- simref()
+## run the simulation 20 times
+## different target credible set size
+results <- replicate(1000,wrapper(OR=1.1,thr=0.9))
+rowMeans(results)
+
+## can put confidence intervals on like this (see https://en.wikipedia.org/wiki/Standard_error)
+se <- apply(results,1,function(x) sd(x)/sqrt(length(x)))
+mn <- rowMeans(results)
+cbind(average=mn, lci=mn - 1.96*se, uci=mn + 1.96*se)
+```
+
+N=5000
+```{r}
+## only need one reference
+freq <- simref()
+## run the simulation 20 times
+## different target credible set size
+results <- replicate(5000,wrapper(OR=1.1,thr=0.9))
+rowMeans(results)
+
+## can put confidence intervals on like this (see https://en.wikipedia.org/wiki/Standard_error)
+se <- apply(results,1,function(x) sd(x)/sqrt(length(x)))
+mn <- rowMeans(results)
+cbind(average=mn, lci=mn - 1.96*se, uci=mn + 1.96*se)
+```
+
+N=10000 - haven't done yet due to time it takes to converge
+```{r}
+## only need one reference
+freq <- simref()
+## run the simulation 20 times
+## different target credible set size
+results <- replicate(10000,wrapper(OR=1.1,thr=0.9))
+rowMeans(results)
+
+## can put confidence intervals on like this (see https://en.wikipedia.org/wiki/Standard_error)
+se <- apply(results,1,function(x) sd(x)/sqrt(length(x)))
+mn <- rowMeans(results)
+cbind(average=mn, lci=mn - 1.96*se, uci=mn + 1.96*se)
+```
+
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
