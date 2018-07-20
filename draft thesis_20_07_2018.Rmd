@@ -11,7 +11,7 @@ title: "Fine mapping genetic associations"
 output: pdf_document
    
 ---
-
+\begin{center}
 
 \LARGE _Author:_ \newline
 \Large Hope Watson 
@@ -26,6 +26,7 @@ output: pdf_document
 
 \large Thesis submitted in partial fulfillment of the degree of Master of Philosophy in Epidemiology
 
+\end{center}
 
 
 \pagebreak
@@ -54,11 +55,7 @@ knitr::include_graphics('./conditional association analysis conditioning on the 
 
     Why is the Bayesian method not influenced by odds ratios and RAF/MAF differences or the power of the study (related to n)? Doesn't n always influence how much we understand LD? Bayesian methods incorporate the variance into the approximate bayes factor and therefore, since it is incorporated, power, variance, and any properties related to sample size are already adjusted/accounted for.
 
-5)Where in the Bayesian framework do we incorporate functional annotations? How are these appropriately quantified into the bayes factor or are they already accounted for in the prior (due to exisitng projects such as fGWAS)? The functional annotations are accounted for in the prior.
 
-6)Overall I am having trouble framing what the solution looks like - would like to go over this so I understand what I am aiming for in the following weeks. Adjusting the priors systematically to improve coverage.
-
-    Which subset of dataset will I be using on 1000 genomes? Do I need to satisfy any conditions or assumptions of the data for my specific analysis? Do not need to address this yet, to be determined at a later period.
 
 #Basic information ##Credible set and credible interval
 
@@ -78,12 +75,15 @@ Confidence - sum of the posterior probabilities
 
 #Data Source ##1000 Genomes Project Provides reference panel data. This is the gold standard data that still has coverage issues.
 
-#Scope of problem When we analyse credible sets, we assume that the true causal variant is contained in that set. However even the gold standard for reference panel data has coverage issues, that is we aren't sure we are considering the causal variant in the list of candidate variants we brought forth. Coverage issues become worse as the odds ratio (OR) and risk allele frequency (RAF) decrease.
-
-#Scope of project This project is to improve coverage in the ideal situation - that is there is only one causal variant being considered in the credible set. It also does not address that a causal variant may be shared for different disorders - that is this does not address colocalization. Finally this study does not address any trans-ancestry differences or geographical analysis of subpopulations and their respective potential subtypes.
+#Motivation 
+Genetic testing is increasing at rapid rates, as the cost of genotyping continues to become much cheaper. Genome Wide Assocation Studies began around 15 years ago. Many strong genetic assocations with simple heritability mechanisms have already been identified, while genetic assocations with complex genetic mechanisms and disease aetiology continue to be challenging. Determining which assocations, that is which mutations to investigate is both time and cost intensive. The overall aim of this study is to reduce the number of candidate causual SNPs to be considered out of a credible set of SNPs. This is done by improving the current methods of how the credible set is derived. 
 
 # Introduction
-What are genetic associations?
+The introduction is split into two sections of background to provide clarity from 1) scientific side - genetics, and 2) mathematics side - Bayesian statistics, described in light of the genetics information. 
+
+#Genetics 
+
+##What are genetic associations?
 A genetic association is a change in the genetic code that alters the risk of disease. Changes occur in the form of single nucleotide polymorphisms (SNPs), copy number variants (CNV), and indels (micro and microsatellites) 
 Genetic association studies -> find associations.
 
@@ -91,8 +91,10 @@ Genetic association studies -> find associations.
 Genome wide association studies identify genetic positions associated with different disease risks in a population
 
 ##What is LD?
-Linkage disequilibrium is the correlation structure that exists among DNA variants in the current human genome as a result of historical evolutionary forces, particularly finite population size (genetic drift), mutation, recombination rate, and natural selection.  [@Visscher2017] In short, this correlation structure means that SNPs are not independent of each other, that is they are conditionally linked to one another. This is what always 80 million SNPs to be arrayed by only 500kb-1Mb SNPs, but does not help indicate which SNP is causal and which is a highly correlated neighboring SNP. 
+Linkage disequilibrium is the correlation structure that exists among DNA variants in the current human genome as a result of historical evolutionary forces, particularly finite population size (genetic drift), mutation, recombination rate, and natural selection [@Visscher2017]. In short, this correlation structure means that SNPs are not statistically independent of each other. LD makes it possible for 80 million SNPs to be arrayed by only 500kb-1Mb SNPs. However, LD also makes it difficult to indicate which SNP is causal and which is a highly correlated neighboring SNP. 
 Different genes have different recombination probabilities, and therefore genetic distance does not equal physical distance. 
+
+LD is expressed by 
 
 
 ## Fine Mapping 
@@ -110,18 +112,15 @@ Another method used was to take the lead SNP, that is the SNP with the highest P
 
 Association p values converted to Bayesian posterior probabilities of causality under specific assumptions.  These can be summed over sets of variants to generate a posterior probability a causal variant lies in any given set.
 
+Bayesian methods are not directly influenced by study 
+
 Credible sets - involves sorting
 
 Aims of thesis
 - assess Bayesian fine mapping
 - hopefully improve it!
 
-Describing this work requires defining and understanding key terms:
 
---In frequentest statistics probability comes into play before collecting data. That is alpha level is predetermined and static. 
-95% probability that we will collect data that produces and interval that contains the true parameter. SAMPLING - MULTIPLE PARALLEL IMAGINARY SAMPLES
-
---In Bayesian statistics probability comes into play after collecting data. Analysis probability after observing the data. Based on data, now think there is 95% probability that the true parameter is in the interval. BELIEF!
 
 ##Posterior Probability 
 The Bayesian's belief in a binary hypothesis (eg this SNP is causal vs this SNP is not causal) after seeing the data.  Note difference to prior belief.  Bayes Theoreom
@@ -152,45 +151,60 @@ In a frequentist framework a parameter of interest (mean, proportion, rate)  is 
 Bayesian statistics incorporate pre-exisitng information into analyses, in the form of a prior, which is a belief of the distribution of the data before any new data has been observed or incorporated in analysis. This can come a variety of forms such as previous studies, consultation with experts, or theorectical biological models. Under these conditions, spelt out by the Bayes Theorem, a parameter is correctly interpreted as the probability of a hypothesis , given the observed data. 
 
 
-##credible interval
+##Credible interval
 A credible interval is a range of values within which an unobserved parameter values falls within a particular subjective probability.  [@Edwards1963]. Unlike in frequentist statistics, in Bayesian we are asking what is the likelihood of a hypothesis, given the data we have observed. The data we have observed is represented by both priors - information that was already known that can be incorporated into analysis of the newly observed data. 
 
-##credible set
+##Credible set
 A credible set is a set of objects, where it is believed one of the objects is the causal variant. Each object is a SNP, that has an assigned posterior probability of being the causal variant. The set is created by setting a threshold, where 
 
-##size of credible set
+
+##Issues with Credible Sets 
+There is currently no explicit quantitiative definition for a credible set, 
+
+##Size of credible set
 For one credible set, the size of the credible set is the belief that the credible set contains the causal variant (eg 90%). 
 
-##coverage of credible set
+##Coverage of credible set
 If we repeat analysing a list of credible sets, coverage is the amount of times the causal variant is in that credible set. Here coverage can be defined as number of times the causal variant was in the credible set out of the number of simulations run. This can be expressed as a percentage where if 10 credible sets are analysed and 9 of these credible sets include the causal variant, there is 90% coverage. 
 
 
 #Link with Frequentist 
 Link between a frequentist confidence interval and a bayesian credible interval with an uninformative prior. When Bayesian framework is used, but the prior belief is uninformative, the posterior probability is derived from the observed data, defined by the likelihood. An uninformative prior mathematically takes the form of uniform distribution, so that any probability in the distribution has the same proportion. This is similar to frequentist probabilities, which only use the data to estimate the unknown parameter. Under this framework, a parameter of interest credible interval, the posterior probability a SNP is causal can be interpreted 
 
-#Issues with Credible Sets 
-There is currently no definition for a credible set, 
+
 
 ##Scope of the Study: 
 This study is done under the one causal variant assumption, meaning there is only one causal variant per credible set. This assumption creates some limitations that are outlined here. 
-Colocalization is when a single SNP is associated with multiple phenotypes. Some methods used for colocalization calculate posterior probabilities works by fine mapping each trait under a single causal variant assumption and then integrating over those two posterior distributions to calculate probabilities that those variants are shared Wallace2016. Therefore, this analysis may be able to be extended to involve colocalization in the future but is not addressed at this time.  
+Colocalization is when a single SNP is associated with multiple phenotypes. Some methods used for colocalization calculate posterior probabilities works by fine mapping each trait under a single causal variant assumption. The two posterior probabilites are then integrated over to calculate probabilities that those variants are shared [@Wallace2016]. Therefore, this analysis may be able to be extended to involve colocalization in the future but is not addressed at this time.  
 
-Copy number variants (CNVs) and variable number tandem repeat (VNTRs) consisting of microsatellites and minisatellites mutations, may account for a 10-15% of heritable gene expression variation in humans Gymrek2015. Repetitive DNA is not easily analysed by next generation DNA sequencing methods, which struggle with homopolymeric tracts, that is, parts of the genotype that have the same base pair type repeated many times. Bi-allelic SNPs are not subject to this issue in the way CNVs and VNTRs are, which means they are more easily assayed. This analysis does not address the potential importance of CNVs and VNTRs and assumes that the causal variant can is a bi-allelic SNP. 
+Copy number variants (CNVs) and variable number tandem repeat (VNTRs) consisting of microsatellites and minisatellites mutations, may account for a 10-15% of heritable gene expression variation in humans [@Gymrek2015]. Repetitive DNA is not easily analysed by next generation DNA sequencing methods, which struggle with homopolymeric tracts, that is, parts of the genotype that have the same base pair type repeated many times. Bi-allelic SNPs are not subject to this issue in the way CNVs and VNTRs are, which means they are more easily assayed. This analysis does not address the potential importance of CNVs and VNTRs and assumes that the causal variant can is a bi-allelic SNP. 
 
-Finally this study does not address any trans-ancestry differences or geographical analysis of subpopulations and their respective potential subtypes. Different trans-ancestries have different LD patterns. A SNP that has a small p-value across groups that have different genetic architecture, shows a stronger genetic assocation to a phenotype than if it were present in only one of the groups.In this analysis only one LD matrix is considered at a time, but this could be extended in the future, particularly with relevant open data access from sources such as 1000 Genomes Project. 
+Functional annotations are added information known about a SNP in how it effects expressed phenotypes. Functional annotations are typically expressed as coding or non-coding regions of the genes 
+Although not explored here, methods outlined in this study could be explored by altering the assigned prior value of a SNP in finemap.abf. Reweighting of the posterior probabilites can be done by using fGWAS [@Pickrell2014] or PAINTOR methods [@Kichaev2014]
+
+Different trans-ancestries have different LD patterns. This study does not address any trans-ancestry differences or geographical analysis of subpopulations and their respective potential subtypes.  A SNP that has a small p-value across groups that have different genetic architecture shows a stronger genetic assocation to a phenotype than if it were present in only one of the groups. In this analysis only one LD matrix is considered at a time, but this could be extended in the future, particularly with relevant open data access from sources such as 1000 Genomes Project. [find spot to cite Jenna's papers here ]. 
+
+
+
 
 ##Aims 
 This study aims to provide a history of fine mapping and its methods 
+
+#Current Practices in Fine Mapping 
 
 ##entropy
 A measure of a system's disorder. 
 -sum p log(p)
 
-# Methods
+#Methods
 
-How you did simulations
+##Why use Simulations?
+Simulations are the gold standard in evaluating methodologies relevant to causal variants. In the "real-world", that is genotyping for actual phenotypes of interest (typically a disease), we do not know the causal variant. It is not possible evaluate both real-world data and the robustness of the methodology simulataneously. This is because the lack of certainty and variability of both parameters may be the reason for the outcomes; a basic concept of the scientific method -- test one variable at a time and hold all other variables the same as controls. 
 
-how you evaluated coverage
+##Running Simulations
+
+Simulations were run by through a series of steps, leveraging relevant available R packages. The simGWAS package was utilised to created simulated 
+##Coverage Evauluation 
 
 how you fixed (if we do!)
 
