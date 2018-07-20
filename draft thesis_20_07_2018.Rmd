@@ -1,6 +1,9 @@
 ---
 title: "Draft thesis 20_07_2018"
-output: pdf_document
+output:
+  pdf_document: default
+  word_document: default
+bibliography: library.bib
 ---
 
 ---
@@ -14,8 +17,10 @@ output: pdf_document
 \Large Hope Watson 
 
 \LARGE _Supervisors:_ \newline
-\Large Dr. Deborah Thompson 
 \Large Dr. Chris Wallace 
+\Large Dr. Jennifer Asimit 
+\Large Dr. Deborah Thompson 
+
 
 \large August 2018
 
@@ -35,16 +40,58 @@ __Word Count (excluding tables, figures, and references):__
 
 #Table of Contents 
 
+\tableofcontents
+
+
+
+    How is a credible set different from a credible interval? Is a credible set a collection of credible intervals? A credible set is discrete with set points (where SNPs occur) whereas credible set has a continuous distribution.
+
+    Why does the lead SNP cause signal noise? The lead SNP which has the largest p value is almost never the causal variant. By adjusting for the SNPS that are in high LD with the lead SNP
+
+    Go over plots:
+
+knitr::include_graphics('./conditional association analysis conditioning on the lead SNP.jpg')
+
+    Why is the Bayesian method not influenced by odds ratios and RAF/MAF differences or the power of the study (related to n)? Doesn't n always influence how much we understand LD? Bayesian methods incorporate the variance into the approximate bayes factor and therefore, since it is incorporated, power, variance, and any properties related to sample size are already adjusted/accounted for.
+
+5)Where in the Bayesian framework do we incorporate functional annotations? How are these appropriately quantified into the bayes factor or are they already accounted for in the prior (due to exisitng projects such as fGWAS)? The functional annotations are accounted for in the prior.
+
+6)Overall I am having trouble framing what the solution looks like - would like to go over this so I understand what I am aiming for in the following weeks. Adjusting the priors systematically to improve coverage.
+
+    Which subset of dataset will I be using on 1000 genomes? Do I need to satisfy any conditions or assumptions of the data for my specific analysis? Do not need to address this yet, to be determined at a later period.
+
+#Basic information ##Credible set and credible interval
+
+Credible set, is a set of objects, where it is believed one of the objects is the causal variant. Each object is a SNP, that has an assigned posterior probability of being the causal variant.
+
+The size of the credible set is the probability the credible set contains the causal variant.
+
+Credible set - confidence that the causal variant is included A credible set has fixed boundaries and unknown parameter (mean, proportion, rate, etc.) Contrast to frequentist where parameter is fixed and boundaries are not. Very importantly in frequentist statisitcs it only uses the data to derive these measures, whereas bayesian utilises prior distribution. In genetics this is important, so we are able to annotate information about genetic variation, such as if it is in a coding or non-coding region.
+
+Confidence - sum of the posterior probabilities
+
+##What is fine-mapping A process to refine these lists of associated variants to a credible set most likely to include the causal variant. Assign well-calibrated probabiliites of causalility to candidate variants. Then connect these variants to likely genes - functional annotation.
+
+#Notes from Reading ##Strategies for fine-mapping complex traits ###Intro eQTL - expression quantitative trait loci - level of gene expression in a particular tissue ###Principles of fine-mapping 1)P-values are influenced by study specific factors - power (related to n) and MAF and OR 2)LD with the lead SNP - still ignores study properties, because higher power can differentiate SNPs in higher LD. 3)Bayesian Framework ###Bayesian Framework Bayes Factor (BF) - ratio of the likelihood probability of two competing hypotheses Each variant is measured using a bayes factor and used to give posterior probability. Posterior Probability (PP) ratio of evidence for each variant versus all others.
+
+##Evaluating the Performance of Fine-Mapping Strategies at Common Variant GWAS Loci
+
+#Data Source ##1000 Genomes Project Provides reference panel data. This is the gold standard data that still has coverage issues.
+
+#Scope of problem When we analyse credible sets, we assume that the true causal variant is contained in that set. However even the gold standard for reference panel data has coverage issues, that is we aren't sure we are considering the causal variant in the list of candidate variants we brought forth. Coverage issues become worse as the odds ratio (OR) and risk allele frequency (RAF) decrease.
+
+#Scope of project This project is to improve coverage in the ideal situation - that is there is only one causal variant being considered in the credible set. It also does not address that a causal variant may be shared for different disorders - that is this does not address colocalization. Finally this study does not address any trans-ancestry differences or geographical analysis of subpopulations and their respective potential subtypes.
+
 # Introduction
 What are genetic associations?
-A genetic association is a change in the genetic code that alters the risk of disease. Changes occur in the form of single nucleotide polymorphisms (SNPs), call number variants (CNV), and indels (micro and microsatellites) 
+A genetic association is a change in the genetic code that alters the risk of disease. Changes occur in the form of single nucleotide polymorphisms (SNPs), copy number variants (CNV), and indels (micro and microsatellites) 
 Genetic association studies -> find associations.
 
 ##What is GWAS? 
 Genome wide association studies identify genetic positions associated with different disease risks in a population
 
 ##What is LD?
-Linkage disequilibrium is the correlation structure that exists among DNA variants in the current human genome as a result of historical evolutionary forces, particularly finite population size (genetic drift), mutation, recombination rate, and natural selection.  Visscher2017 In short, this correlation structure means that SNPs are not independent of each other, that is they are conditionally linked to one another. This is what always 80 million SNPs to be arrayed by only 500kb-1Mb SNPs, but does not help indicate which SNP is causal and which is a highly correlated neighboring SNP. 
+Linkage disequilibrium is the correlation structure that exists among DNA variants in the current human genome as a result of historical evolutionary forces, particularly finite population size (genetic drift), mutation, recombination rate, and natural selection.  [@Visscher2017] In short, this correlation structure means that SNPs are not independent of each other, that is they are conditionally linked to one another. This is what always 80 million SNPs to be arrayed by only 500kb-1Mb SNPs, but does not help indicate which SNP is causal and which is a highly correlated neighboring SNP. 
 Different genes have different recombination probabilities, and therefore genetic distance does not equal physical distance. 
 
 
@@ -54,7 +101,7 @@ Fine mapping is a process in which researchers try and identify the most likely 
 ##Types of Methods 
 
 ### lead SNP (smallest p)
-A previous and simple approach was to consider all SNPs of a certain threshold (5 x 10^-8) as potential candidates for causality. There are several issues with this, as p-values are influenced by study specific factors such as power (sample size), minor allele frequency, and the effect size (rarely known). Differences in these variables make genetic studies difficult to compare. 
+A previous and simple approach was to consider all SNPs of a certain threshold (5 x 10^-8) as potential candidates for causality. There are several issues with this, as p-values are influenced by study specific factors such as power (sample size), minor allele frequency, and the effect size (rarely known). Differences in these variables make genetic studies difficult to compare. [@Spain2015]
 
 ### lead SNP + LD friends (eg r2>0.8)
 Another method used was to take the lead SNP, that is the SNP with the highest P-value, and compare it with a certain LD threshold, typically r^2>0.8 and consider it as a potentially causal SNP. This method still ignores properties of the study or locus, as greater power can differentiate SNPs in higher LD 
@@ -101,12 +148,12 @@ statistical probability that a hypothesis is true, calculated in light of releva
 
 #Bayesian Statistics 
 ##Contrast with Frequentist 
-In a frequentist framework a parameter of interest (mean, proportion, rate)  is fixed and only varies due to sampling variation. The process of inferring the value of the parameter works by considering every possible result that a study could potentially generate. That is under the same conditions, what would be observed under multiple parallel imaginary samples. However this is not possible many biological phenomia, where a hypothesis such as 'What is the porobabilty that a SNP is causal, given the data currently accrued?' Kirkwood2005 There is no interpretation of this hypothesis in frequentist terms, since there is a fixed but unknown quantity of the SNP (functional genomic issues such as gene expression under the frequentist interpretation).  In frequentist statistics the null hypothesis is assumed to be true; that is, it is the starting point of all inference that the observed data is compared to. The P-value reflects the probability of observing data as or more extreme than the data actually observed in current study, given the null hpyothesis; this framework does not allow for competing hypotheses. Lyle1999 A 95% confidence interval is interpreted as if new data were to be repeatedly sampled and analysed, 19 out of 20 intervals would include the true quantity parameter being estimated. 
+In a frequentist framework a parameter of interest (mean, proportion, rate)  is fixed and only varies due to sampling variation. The process of inferring the value of the parameter works by considering every possible result that a study could potentially generate. That is under the same conditions, what would be observed under multiple parallel imaginary samples. However this is not possible many biological phenomia, where a hypothesis such as 'What is the porobabilty that a SNP is causal, given the data currently accrued?' #Kirkwood2005 There is no interpretation of this hypothesis in frequentist terms, since there is a fixed but unknown quantity of the SNP (functional genomic issues such as gene expression under the frequentist interpretation).  In frequentist statistics the null hypothesis is assumed to be true; that is, it is the starting point of all inference that the observed data is compared to. The P-value reflects the probability of observing data as or more extreme than the data actually observed in current study, given the null hpyothesis; this framework does not allow for competing hypotheses. [@Gurrin2000]. A 95% confidence interval is interpreted as if new data were to be repeatedly sampled and analysed, 19 out of 20 intervals would include the true quantity parameter being estimated. 
 Bayesian statistics incorporate pre-exisitng information into analyses, in the form of a prior, which is a belief of the distribution of the data before any new data has been observed or incorporated in analysis. This can come a variety of forms such as previous studies, consultation with experts, or theorectical biological models. Under these conditions, spelt out by the Bayes Theorem, a parameter is correctly interpreted as the probability of a hypothesis , given the observed data. 
 
 
 ##credible interval
-A credible interval is a range of values within which an unobserved parameter values falls within a particular subjective probability.  (Edwards, 1963) Unlike in frequentist statistics, in Bayesian we are asking what is the likelihood of a hypothesis, given the data we have observed. The data we have observed is represented by both priors - information that was already known that can be incorporated into analysis of the newly observed data. 
+A credible interval is a range of values within which an unobserved parameter values falls within a particular subjective probability.  [@Edwards1963]. Unlike in frequentist statistics, in Bayesian we are asking what is the likelihood of a hypothesis, given the data we have observed. The data we have observed is represented by both priors - information that was already known that can be incorporated into analysis of the newly observed data. 
 
 ##credible set
 A credible set is a set of objects, where it is believed one of the objects is the causal variant. Each object is a SNP, that has an assigned posterior probability of being the causal variant. The set is created by setting a threshold, where 
@@ -125,10 +172,10 @@ Link between a frequentist confidence interval and a bayesian credible interval 
 There is currently no definition for a credible set, 
 
 ##Scope of the Study: 
-The scope of the simulations and use cases in this analysis done under the assumptions that there is only one causal variant per credible set referred to as the single causal variant assumption. These limitations are outlined here. 
+This study is done under the one causal variant assumption, meaning there is only one causal variant per credible set. This assumption creates some limitations that are outlined here. 
 Colocalization is when a single SNP is associated with multiple phenotypes. Some methods used for colocalization calculate posterior probabilities works by fine mapping each trait under a single causal variant assumption and then integrating over those two posterior distributions to calculate probabilities that those variants are shared Wallace2016. Therefore, this analysis may be able to be extended to involve colocalization in the future but is not addressed at this time.  
 
-Call number variants (CNVs) and variable number tandem repeat (VNTRs) consisting of microsatellites and minisatellites mutations, may account for a 10-15% of heritable gene expression variation in humans Gymrek2015. Repetitive DNA is not easily analysed by next generation DNA sequencing methods, which struggle with homopolymeric tracts, that is, parts of the genotype that have the same base pair type repeated many times. Bi-allelic SNPs are not subject to this issue in the way CNVs and VNTRs are, which means they are more easily assayed. This analysis does not address the potential importance of CNVs and VNTRs and assumes that the causal variant can is a bi-allelic SNP. 
+Copy number variants (CNVs) and variable number tandem repeat (VNTRs) consisting of microsatellites and minisatellites mutations, may account for a 10-15% of heritable gene expression variation in humans Gymrek2015. Repetitive DNA is not easily analysed by next generation DNA sequencing methods, which struggle with homopolymeric tracts, that is, parts of the genotype that have the same base pair type repeated many times. Bi-allelic SNPs are not subject to this issue in the way CNVs and VNTRs are, which means they are more easily assayed. This analysis does not address the potential importance of CNVs and VNTRs and assumes that the causal variant can is a bi-allelic SNP. 
 
 Finally this study does not address any trans-ancestry differences or geographical analysis of subpopulations and their respective potential subtypes. Different trans-ancestries have different LD patterns. A SNP that has a small p-value across groups that have different genetic architecture, shows a stronger genetic assocation to a phenotype than if it were present in only one of the groups.In this analysis only one LD matrix is considered at a time, but this could be extended in the future, particularly with relevant open data access from sources such as 1000 Genomes Project. 
 
