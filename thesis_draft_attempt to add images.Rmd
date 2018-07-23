@@ -204,7 +204,7 @@ Different trans-ancestries have different LD patterns. This study does not addre
 ## Aims 
 This study aims to prove that current fine mapping practices could be made more efficient to obtain a smaller credible set size. To do this, a metric to capture the amount of disorder in the system - the set of SNPs, was created. Through this method, we are able to say that by making the SNPs with the highest posterior probabilites always incorporated in the credible set through ordering, this contains more information about each SNP. By incorporating the information that SNPs with high posterior probabilities are more likely to be causual, the specified threshold can be reached using a smaller credible set.
 
-##Should go somewhere else soon, but in the flow 
+## Should go somewhere else soon, but in the flow 
 
 The measure of disorder can be viewed as a statistical annotation that allows us to have more confidence that the causal variant is contained in the credible set, when candidate SNP(s) have much higher posterior probabilities than the entire full set of SNPs being tested. 
 
@@ -215,9 +215,13 @@ Under this practice, the relationship to size and coverage are considered.
 
 ## Relationships to Ordering 
 ### Size
-The relationship between ordering and credible set size is an inverse relationship. This is simple to see in an example. Say there are 100 SNPs and the 97th SNP is the causal variant with the lowest p-value, and therefore has the highest posterior probability. An unordered credible set 
+The relationship between ordering and credible set size is an inverse relationship. This is simple to see in an example. Say there are 100 SNPs and the 97th SNP is the causal variant with the lowest p-value, and therefore has the highest posterior probability. An unordered credible set with a pre-specified threshold (cumulative sum of posterior probabilities), would need to take 97 SNPs to achieve the specified threshold. The ordered credible set could achieve the same threshold with many fewer SNPs. This is illustrated below. 
+
+[FIGURE FOR DIFFERENCES IN SIZE]. 
 
 ### Coverage 
+Bayesian credible intervals (continuous) are well understood not to have their coverage affected by ordering. [Why???Need to investigate]
+The same claims have been extended to credible sets (discrete) 
 
 ### Evaluation of Coverage 
 
