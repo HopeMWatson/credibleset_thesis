@@ -38,7 +38,7 @@ bibliography: library.bib
 
 \pagebreak
 
-#Declaration 
+# Declaration 
 I declare that this thesis is the result of my own work. All sources are fully acknowledged and
 appropriately cited. The contents of this submission have not been used to any extent for a comparable
 purpose, i.e., in partial fulfilment of another degree or diploma at any university or institute of
@@ -46,7 +46,7 @@ higher learning.
 
 
 \pagebreak
-#Acknowledgements 
+# Acknowledgements 
 I would like to thank the many people who made this thesis possible. Without their help I would not have grown as an academic and begin to change how I see phenomia occuring in the world. I especially like to thank Dr. Chris Wallace and Dr. Jennifer Asimit, for continuously helping me all throughout this thesis and assisting me in the many questions I asked. I would like to thank Dr. Deborah Thompson for helping edit this thesis and being a devoted supervisor and mentor during my entire year, both academically and professionally. 
 
 
@@ -55,7 +55,7 @@ __Word Count (excluding tables, figures, and references):__
 
 \pagebreak
 
-#Table of Contents 
+# Table of Contents 
 
 \tableofcontents
 
@@ -79,7 +79,7 @@ Genetic association studies -> find associations.
 ## What is GWAS? 
 Genome wide association studies identify genetic positions (loci) associated with different disease risks in a population. 
 
-##Important Terms
+## Important Terms
 
 A phenotype is an expressed trait of interest. This is typically a disease such as cancer or heart disease. In a case-control study, a person with the expressed phenotype of interest is a case, and the person without the expressed phenotype is a control. 
 
@@ -92,7 +92,7 @@ A gene a stretch of DNA that codes for a particular protein. A haplotype is a gr
 
 An allele is alternataive forms of a gene/trait that are found at the same place on a chromosome. Minor Allele Frequency (MAF) is the frequency (count) at which the second most common allele occurs in a given population. The MAF gives a reference to how commmon or rare a variant is. A MAF of 0.5 means that the frequency of that specific allele is present in 50% of the population.
 
-###Understanding GWAS Manhattan Plot
+### Understanding GWAS Manhattan Plot
 
 \includegraphics{Manhattan_Plot}
 
@@ -176,23 +176,21 @@ A credible interval is a range of values within which an unobserved parameter va
 
 ## Credible set
 
-A set of SNPs that contains the causal variant with a pre-specified probability. Each SNP has an assigned prior probability and a posterior probability is calculated, using the likelihood of the data observed. The set is determined by a threshold of desired cumulative poster probabiities to reach this cutoff. 
-
+A set of SNPs that contains the causal variant with a pre-specified probability. Each SNP has an assigned prior probability and a posterior probability is calculated, using the likelihood of the data observed [Cite Jenna somewhere here]. The set is determined by a threshold of desired cumulative poster probabiities to reach this cutoff. 
 
 ## Issues with Credible Sets 
-There is currently no explicit quantitiative definition for a credible set as there is for a credible interval. 
+There is currently no explicit quantitiative definition for a credible set as there is for a credible interval. A credible assumes a continuous distribution, while a credible set is made up of a discrete distribution for the SNP 
 
 ## Size of credible set
 For one credible set, the size of the credible set is the belief that the credible set contains the causal variant (eg 90%). 
 
 ## Coverage of credible set
-If we repeat analysing a list of credible sets, coverage is the amount of times the causal variant is in that credible set. Here coverage can be defined as number of times the causal variant was in the credible set out of the number of simulations run. This can be expressed as a percentage where if 10 credible sets are analysed and 9 of these credible sets include the causal variant, there is 90% coverage. 
+If we repeat analysing a list of credible sets, coverage is the amount of times the causal variant is in that credible set. Here coverage can be defined as number of times the causal variant was in the credible set out of the number of simulations run. This can be expressed as a percentage where if 10 credible sets are analysed and 9 of these credible sets include the causal variant, there is 90% coverage. \emph{Coverage is a frequentist concept because of the nature of repeatedability being used to assess Bayesian inferences}. 
 
-
-# Link with Frequentist 
+## Link with Frequentist 
 Link between a frequentist confidence interval and a bayesian credible interval with an uninformative prior. When Bayesian framework is used, but the prior belief is uninformative, the posterior probability is derived from the observed data, defined by the likelihood. An uninformative prior mathematically takes the form of uniform distribution, so that any probability in the distribution has the same proportion. This is similar to frequentist probabilities, which only use the data to estimate the unknown parameter. Under this framework, a parameter of interest credible interval, the posterior probability a SNP is causal can be interpreted. 
 
-## Scope of the Study: 
+# Scope of the Study: 
 This study is done under the one causal variant assumption, meaning there is only one causal variant per credible set. This assumption creates some limitations that are outlined here. 
 Colocalization is when a single SNP is associated with multiple phenotypes. Some methods used for colocalization calculate posterior probabilities works by fine mapping each trait under a single causal variant assumption. The two posterior probabilites are then integrated over to calculate probabilities that those variants are shared [@Fortune2018]. Therefore, this analysis may be able to be extended to involve colocalization in the future but is not addressed at this time.  
 
@@ -202,9 +200,6 @@ Functional annotations are added information known about a SNP in how it effects
 Although not explored here, methods outlined in this study could be explored by altering the assigned prior value of a SNP in finemap.abf. Reweighting of the posterior probabilites can be done by using fGWAS [Pickrell2014] or PAINTOR methods [@Kichaev2014]. 
 
 Different trans-ancestries have different LD patterns. This study does not address any trans-ancestry differences or geographical analysis of subpopulations and their respective potential subtypes.  A SNP that has a small p-value across groups that have different genetic architecture shows a stronger genetic assocation to a phenotype than if it were present in only one of the groups. In this analysis only one LD matrix is considered at a time, but this could be extended in the future, particularly with relevant open data access from sources such as 1000 Genomes Project. [find spot to cite Jenna's papers here ]. 
-
-
-
 
 ## Aims 
 This study aims to prove that current fine mapping practices could be made more efficient to obtain a smaller credible set size. To do this, a metric to capture the amount of disorder in the system - the set of SNPs, was created. Through this method, we are able to say that by making the SNPs with the highest posterior probabilites always incorporated in the credible set through ordering, this contains more information about each SNP. By incorporating the information that SNPs with high posterior probabilities are more likely to be causual, the specified threshold can be reached using a smaller credible set.
@@ -218,14 +213,16 @@ Currently it is typical practice that credible sets be ordered by descending pos
 
 Under this practice, the relationship to size and coverage are considered. 
 
-##Relationships to Ordering 
-##Size
-The relationship between ordering and size is an inverse relationship. This is simple to see in an example. Say there are 100 SNPs and the 97th one is the SNP with the lowest p-value, and therefore has the highest posterior probability 
+## Relationships to Ordering 
+### Size
+The relationship between ordering and credible set size is an inverse relationship. This is simple to see in an example. Say there are 100 SNPs and the 97th SNP is the causal variant with the lowest p-value, and therefore has the highest posterior probability. An unordered credible set 
 
-##Coverage 
+### Coverage 
+
+### Evaluation of Coverage 
 
 
-## Entropy
+### Entropy
 A measure of a system's disorder. 
 -sum p log(p)
 
