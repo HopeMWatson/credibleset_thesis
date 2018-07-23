@@ -221,9 +221,10 @@ The relationship between ordering and credible set size is an inverse relationsh
 
 ### Coverage 
 Bayesian credible intervals (continuous) are well understood not to have their coverage affected by ordering. [Why???Need to investigate]
-The same claims have been extended to credible sets (discrete) 
+The same claims have been extended to credible sets (discrete). 
+In this analysis, we prove these claims create overcoverage. This is due to not accounting for the amount of disorder in the system, created by the differ
 
-### Evaluation of Coverage 
+
 
 
 ### Entropy
@@ -239,7 +240,11 @@ Simulations are the gold standard in evaluating methodologies relevant to causal
 
 Simulations were run by through a series of steps, leveraging relevant available R packages. Full code described here is available on: https://github.com/HopeMWatson/credibleset_thesis/blob/master/coverage%20.Rmd
 
-The libraries utilised in this analysis were devtools to load the simGWAS and coloc packages directly from github. ggplot2 package was used to produce figures. The simGWAS package directly simulates GWAS summary data, without indivudal data as an intermediate step. The expected statistics are mathemathically derived for any set of causal variants and their effects sizes, conditional upon control haplotype frequencies [@Fortune2018]. The arguements for simGWAS to run require a specifation of the causal SNP, its effect size (OR), and allele (MAF) and haplotypes frequencies. 
+The libraries utilised in this analysis were devtools to load the simGWAS and coloc packages directly from github. ggplot2 package was used to produce figures. 
+
+The simGWAS package directly simulates GWAS summary data, without indivudal data as an intermediate step. The expected statistics are mathemathically derived for any set of causal variants and their effects sizes, conditional upon control haplotype frequencies [@Fortune2018]. The arguements for simGWAS to run require a specifation of the causal SNP, its effect size (OR), and allele (MAF) and haplotypes frequencies. simGWAS then produce simulated z-scores for each SNP. The z-scores are turned into p-values. 
+
+From the assigned p-values, posterior probailites are calculated. This process was outlined above, showing how approximate bayes factors (ABF) are created from the observed data and the uniformative prior. The finemap.abf function works on summary statistic data, inputs as either 1) p-values, as used here or 2) coefficients and coefficient variance. Other functions in the coloc package can be utilised for full genotyped data with different statistical approaches. 
 ## Coverage Evauluation 
 
 how you fixed (if we do!)
