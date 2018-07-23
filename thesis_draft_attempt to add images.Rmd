@@ -85,21 +85,19 @@ A phenotype is an expressed trait of interest. This is typically a disease such 
 
 A genotype is the genetic makeup of a organism that will determine its phenotype. The genetic make up is a sequence of base pairs.
 
-An allele is alternataive forms of a gene/trait that are found at the same place on a chromosome. 
+A single nucleotide polymorphism (SNP) is a mutation where one base pair is different than the reference genome. Most SNPs are bi-allelic; this makes them easy to be analysed through a binary statistical inferences. 
 
-Minor Allele Frequency (MAF) is the frequency (count) at which the second most common allele occurs in a given population. The MAF gives a reference to how commmon or rare a variant is. A MAF of 0.5 means that the frequency of that specific allele 
-
-A haplotype is a group of alleles 
+A gene a stretch of DNA that codes for a particular protein. A haplotype is a group of genes within an organism that was inherited together from a single parent. Haplotypes also refer to the inheritence of clusters of single nucleotide polymorphisms (SNPs), which are variations at single positions in the DNA sequence among individuals [https://www.nature.com/scitable/definition/haplotype-haplotypes-142]. Haplotypes are necessary in creating linkage disequilibrium matrices (discussed below). 
 
 
+An allele is alternataive forms of a gene/trait that are found at the same place on a chromosome. Minor Allele Frequency (MAF) is the frequency (count) at which the second most common allele occurs in a given population. The MAF gives a reference to how commmon or rare a variant is. A MAF of 0.5 means that the frequency of that specific allele is present in 50% of the population. 
 
-A single nucleotide polymorphism (SNP) is a 
-
- 
 
 #Understanding GWAS Manhattan Plot
 
 \includegraphics{Manhattan_Plot}
+
+Each dot on a Manhattan plot represents one haplotype. The x axis is the loci, which is the position of the SNP on the chromosome. On the y axis is the -log p value of the association found in the haplotype in the cases compared to the control group. Dots farther up on the y axis represent a haplotype that has a stronger association with the phenotype. The null hypothesis is that each haplotype has no assocation with the phenotype. Candidate 
 
 ## Fine Mapping 
 Fine mapping is a process in which researchers try and identify the most likely single or set of variants within which the causal variant should be present. The process is done by assigning well-calibrate probabilites of causality to each candidate variant [@Spain2015]. 
