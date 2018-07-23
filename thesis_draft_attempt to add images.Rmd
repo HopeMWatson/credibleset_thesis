@@ -65,7 +65,7 @@ __Word Count (excluding tables, figures, and references):__
 
 
 # Introduction 
-Genetic testing is increasing at rapid rates, as the cost of genotyping continues to become much cheaper. Genome Wide Assocation Studies began around 15 years ago. Many strong genetic assocations with simple heritability mechanisms have already been identified, while genetic assocations with complex genetic mechanisms and disease aetiology continue to be challenging. Determining which assocations, that is which mutations to investigate is both time and cost intensive. The overall aim of this study is to reduce the number of candidate causual SNPs to be considered out of a credible set of SNPs. This is done by improving the current methods of how the credible set is derived. 
+Genetic testing is increasing at rapid rates, as the cost of genotyping continues to become much cheaper. Genome Wide Assocation Studies began around 15 years ago. Many strong genetic assocations with simple heritability mechanisms have already been identified, while genetic assocations with complex genetic mechanisms and disease aetiology continue to be challenging. Determining which assocations, that is which mutations to investigate is both time and cost intensive. The overall aim of this study is to reduce the number of candidate causual SNPs to be considered out of a credible set of SNPs. This is done by improving the current methods of how the credible set is derived. This process enables statistical assocations to be converted into target genes. 
 
 # Background
 The introduction is split into two sections of background to provide clarity from 1) scientific side - genetics, and 2) mathematics side - Bayesian statistics, described in light of the genetics information. 
@@ -102,10 +102,7 @@ A single nucleotide polymorphism (SNP) is a
 \includegraphics{Manhattan_Plot}
 
 ## Fine Mapping 
-Fine mapping is a process in which researchers try and identify the most likely single or set of variants within which the causal variant should lie. 
-What is fine-mapping A process to refine these lists of associated variants to a credible set most likely to include the causal variant
-Assign well-calibrated probabiliites of causalility to candidate variants. Then connect these variants to likely genes - functional annotation.
-
+Fine mapping is a process in which researchers try and identify the most likely single or set of variants within which the causal variant should be present. The process is done by assigning well-calibrate probabilites of causality to each candidate variant [@Spain2015]. 
 
 ## What is LD?
 Linkage disequilibrium is the correlation structure that exists among DNA variants in the current human genome as a result of historical evolutionary forces, particularly finite population size (genetic drift), mutation, recombination rate, and natural selection [@Visscher2017]. In short, this correlation structure means that SNPs are not statistically independent of each other. LD makes it possible for 80 million SNPs to be arrayed by only 500kb-1Mb SNPs. However, LD also makes it difficult to indicate which SNP is causal and which is a highly correlated neighboring SNP. 
@@ -206,8 +203,8 @@ Colocalization is when a single SNP is associated with multiple phenotypes. Some
 
 Copy number variants (CNVs) and variable number tandem repeat (VNTRs) consisting of microsatellites and minisatellites mutations, may account for a 10-15% of heritable gene expression variation in humans [@Gymrek2016]. Repetitive DNA is not easily analysed by next generation DNA sequencing methods, which struggle with homopolymeric tracts, that is, parts of the genotype that have the same base pair type repeated many times. Bi-allelic SNPs are not subject to this issue in the way CNVs and VNTRs are, which means they are more easily assayed. This analysis does not address the potential importance of CNVs and VNTRs and assumes that the causal variant can is a bi-allelic SNP. 
 
-Functional annotations are added information known about a SNP in how it effects expressed phenotypes. Functional annotations are typically expressed as coding or non-coding regions of the genes 
-Although not explored here, methods outlined in this study could be explored by altering the assigned prior value of a SNP in finemap.abf. Reweighting of the posterior probabilites can be done by using fGWAS [Pickrell2014] or PAINTOR methods [@Kichaev2014]. eQTL - expression quantitative trait loci - level of gene expression in a particular tissue 
+Functional annotations are added information known about a SNP in how it effects expressed phenotypes. Functional annotations are typically expressed as coding or non-coding regions of the genes. Among functional annotations are expression quantitative trait loci (eQTL) where a SNP is known to effect a level of expression a particular gene in a particular tissue. Functional annotations are important because phyiscal distance to a gene is not substantive evidence of causality. This means a mutation farther from a gene may play an important role in regulation of that specific gene's expression. 
+Although not explored here, methods outlined in this study could be explored by altering the assigned prior value of a SNP in finemap.abf. Reweighting of the posterior probabilites can be done by using fGWAS [Pickrell2014] or PAINTOR methods [@Kichaev2014]. 
 
 Different trans-ancestries have different LD patterns. This study does not address any trans-ancestry differences or geographical analysis of subpopulations and their respective potential subtypes.  A SNP that has a small p-value across groups that have different genetic architecture shows a stronger genetic assocation to a phenotype than if it were present in only one of the groups. In this analysis only one LD matrix is considered at a time, but this could be extended in the future, particularly with relevant open data access from sources such as 1000 Genomes Project. [find spot to cite Jenna's papers here ]. 
 
