@@ -224,9 +224,6 @@ Bayesian credible intervals (continuous) are well understood not to have their c
 The same claims have been extended to credible sets (discrete). 
 In this analysis, we prove these claims create overcoverage. This is due to not accounting for the amount of disorder in the system, created by the differ
 
-
-
-
 ### Entropy
 A measure of a system's disorder. 
 -sum p log(p)
@@ -242,14 +239,26 @@ Simulations were run by through a series of steps, leveraging relevant available
 
 The libraries utilised in this analysis were devtools to load the simGWAS and coloc packages directly from github. ggplot2 package was used to produce figures. 
 
-The simGWAS package directly simulates GWAS summary data, without indivudal data as an intermediate step. The expected statistics are mathemathically derived for any set of causal variants and their effects sizes, conditional upon control haplotype frequencies [@Fortune2018]. The arguements for simGWAS to run require a specifation of the causal SNP, its effect size (OR), and allele (MAF) and haplotypes frequencies. simGWAS then produce simulated z-scores for each SNP. The z-scores are turned into p-values. 
+### simGWAS
+The simGWAS package directly simulates GWAS summary data, without indivudal data as an intermediate step. The expected statistics are mathemathically derived for any set of causal variants and their effects sizes, conditional upon control haplotype frequencies [@Fortune2018]. The arguements for simGWAS to run require a specifation of the causal SNP, its effect size (OR), and allele (MAF) and haplotypes frequencies. simGWAS then produce simulated z-scores for each SNP. A list of z-scores was created for each SNP by running the simulation 100 times. The final output from simGWAS was a 100x100 matrix, which contained data on 100 SNPs with 100 z-scores. The z-scores were turned into p-values. 
 
+### Finemap.abf 
 From the assigned p-values, posterior probailites are calculated. This process was outlined above, showing how approximate bayes factors (ABF) are created from the observed data and the uniformative prior. The finemap.abf function works on summary statistic data, inputs as either 1) p-values, as used here or 2) coefficients and coefficient variance. Other functions in the coloc package can be utilised for full genotyped data with different statistical approaches. 
-## Coverage Evauluation 
+
+The finemap.abf function works by specifying input arguements for 1) p-values 2) sample size 3) MAF 4) ratio of cases to controls (s), and 5) type =cc. The prior is set to p=1e-04 as a default for an uniformative prior. An empty matrix was created in to map each to place each posterior probability into the list back into the dataframe. The finemap.abf function was then looped over each SNP and its respective list of p-values to create posterior probabilities. The final output from finemap.abf was a 100x100 matrix, which contained data on 100 SNPs with 100 respective posterior probabilites of the SNP being the specified causal variant. 
+
+### Credset 
+
+
+## Coverage Evauluation
 
 how you fixed (if we do!)
 
 # Results
+
+## Different Scenarios 
+
+Different size and coverage scenarios were explored to analyse the relationship ordering [PICK UP FROM HERE TOMORROW]
 
 plots of coverage vs size for unordered 'credible sets'
 
