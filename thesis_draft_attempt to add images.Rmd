@@ -97,7 +97,7 @@ An allele is alternataive forms of a gene/trait that are found at the same place
 
 \includegraphics{Manhattan_Plot}
 
-Each dot on a Manhattan plot represents one haplotype. The x axis is the loci, which is the position of the SNP on the chromosome. On the y axis is the -log p value of the association found in the haplotype in the cases compared to the control group. Dots farther up on the y axis represent a haplotype that has a stronger association with the phenotype. The null hypothesis is that each haplotype has no assocation with the phenotype. Candidate 
+Each dot on a Manhattan plot represents one haplotype. The x axis is the loci, which is the position of the SNP on the chromosome. On the y axis is the -log p value of the association of the SNP in the cases compared to the control group. Dots farther up on the y axis represent a SNP that has a stronger association with the phenotype. The null hypothesis is that each SNP has no assocation with the phenotype. Through GWAS, candidate genes can be identified. In plots where there are multiple highly associated SNPs, this is an indication of pleitropy, which means that the same gene effects more than one phenotype. 
 
 ## Fine Mapping 
 Fine mapping is a process in which researchers try and identify the most likely single or set of variants within which the causal variant should be present. The process is done by assigning well-calibrate probabilites of causality to each candidate variant [@Spain2015]. 
