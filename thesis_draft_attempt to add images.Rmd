@@ -90,17 +90,13 @@ A single nucleotide polymorphism (SNP) is a mutation where one base pair is diff
 A gene a stretch of DNA that codes for a particular protein. A haplotype is a group of genes within an organism that was inherited together from a single parent. Haplotypes also refer to the inheritence of clusters of single nucleotide polymorphisms (SNPs), which are variations at single positions in the DNA sequence among individuals [https://www.nature.com/scitable/definition/haplotype-haplotypes-142]. Haplotypes are necessary in creating linkage disequilibrium matrices (discussed below). 
 
 
-An allele is alternataive forms of a gene/trait that are found at the same place on a chromosome. Minor Allele Frequency (MAF) is the frequency (count) at which the second most common allele occurs in a given population. The MAF gives a reference to how commmon or rare a variant is. A MAF of 0.5 means that the frequency of that specific allele is present in 50% of the population. 
+An allele is alternataive forms of a gene/trait that are found at the same place on a chromosome. Minor Allele Frequency (MAF) is the frequency (count) at which the second most common allele occurs in a given population. The MAF gives a reference to how commmon or rare a variant is. A MAF of 0.5 means that the frequency of that specific allele is present in 50% of the population.
 
-
-#Understanding GWAS Manhattan Plot
+###Understanding GWAS Manhattan Plot
 
 \includegraphics{Manhattan_Plot}
 
 Each dot on a Manhattan plot represents one haplotype. The x axis is the loci, which is the position of the SNP on the chromosome. On the y axis is the -log p value of the association of the SNP in the cases compared to the control group. Dots farther up on the y axis represent a SNP that has a stronger association with the phenotype. The null hypothesis is that each SNP has no assocation with the phenotype. Through GWAS, candidate genes can be identified. In plots where there are multiple highly associated SNPs, this is an indication of pleitropy, which means that the same gene effects more than one phenotype. 
-
-## Fine Mapping 
-Fine mapping is a process in which researchers try and identify the most likely single or set of variants within which the causal variant should be present. The process is done by assigning well-calibrate probabilites of causality to each candidate variant [@Spain2015]. 
 
 ## What is LD?
 Linkage disequilibrium is the correlation structure that exists among DNA variants in the current human genome as a result of historical evolutionary forces, particularly finite population size (genetic drift), mutation, recombination rate, and natural selection [@Visscher2017]. In short, this correlation structure means that SNPs are not statistically independent of each other. LD makes it possible for 80 million SNPs to be arrayed by only 500kb-1Mb SNPs. However, LD also makes it difficult to indicate which SNP is causal and which is a highly correlated neighboring SNP. 
@@ -108,11 +104,11 @@ Different genes have different recombination probabilities, and therefore geneti
 
 LD is expressed by a matrix, where 
 
+## Fine Mapping 
+Fine mapping is a process in which researchers try and identify the most likely single or set of variants within which the causal variant should be present. The process is done by assigning well-calibrate probabilites of causality to each candidate variant [@Spain2015]. 
 
 
-
-
-## Types of Methods 
+## Types of Methods in Fine Mapping
 
 ### Lead SNP (smallest p-value)
 A previous and simple approach was to consider all SNPs of a certain threshold (5 x 10^-8) as potential candidates for causality. There are several issues with this, as p-values are influenced by study specific factors such as power (sample size), minor allele frequency, and the effect size (rarely known). Differences in these variables make genetic studies difficult to compare. [@Spain2015]
@@ -218,9 +214,9 @@ This study aims to prove that current fine mapping practices could be made more 
 The measure of disorder can be viewed as a statistical annotation that allows us to have more confidence that the causal variant is contained in the credible set, when candidate SNP(s) have much higher posterior probabilities than the entire full set of SNPs being tested. 
 
 # Current Practices in Fine Mapping 
-Full genotyping. LD matrix comes from 
+Currently it is typical practice that credible sets be ordered by descending posterior probabilities to order the SNP with the highest posterior probability first and the SNP with the lowest posterior probability last. This practice is done because it reduces the credible set, that is the number of candidate SNPs to consider. 
 
-Under this framework, 
+Under this practice, the relationship to size and coverage are considered. 
 
 ##Relationships to Ordering 
 ##Size
