@@ -108,7 +108,7 @@ Fine mapping is a process in which researchers try and identify the most likely 
 Linkage disequilibrium is the correlation structure that exists among DNA variants in the current human genome as a result of historical evolutionary forces, particularly finite population size (genetic drift), mutation, recombination rate, and natural selection [@Visscher2017]. In short, this correlation structure means that SNPs are not statistically independent of each other. LD makes it possible for 80 million SNPs to be arrayed by only 500kb-1Mb SNPs. However, LD also makes it difficult to indicate which SNP is causal and which is a highly correlated neighboring SNP. 
 Different genes have different recombination probabilities, and therefore genetic distance does not equal physical distance. 
 
-LD is expressed by 
+LD is expressed by a matrix, where 
 
 
 
@@ -125,9 +125,9 @@ Another method used was to take the lead SNP, that is the SNP with the highest p
 
 ### Bayesian method
 
-Association p-values converted to Bayesian posterior probabilities of causality under specific assumptions [@Stephens2009] [@Wakefield2007].  These can be summed over sets of variants to generate a posterior probability a causal variant lies in any given set. The posterior probabilities are the ratio of evidence for each variant beign causal versus all the others. This is expressed as 
+Association p-values converted to Bayesian posterior probabilities of causality under specific assumptions [@Stephens2009] [@Wakefield2007].  These can be summed over sets of variants to generate a posterior probability a causal variant lies in any given set. The posterior probabilities (pp) are the ratio of evidence for each variant beign causal versus all the others. This is expressed as 
 \begin{equation}
-
+\frac{pp \sum
 \end{equation}
 
 Bayesian methods are not directly influenced by study 
