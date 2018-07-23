@@ -125,7 +125,10 @@ Another method used was to take the lead SNP, that is the SNP with the highest p
 
 ### Bayesian method
 
-Association p-values converted to Bayesian posterior probabilities of causality under specific assumptions.  These can be summed over sets of variants to generate a posterior probability a causal variant lies in any given set.
+Association p-values converted to Bayesian posterior probabilities of causality under specific assumptions [@Stephens2009] [@Wakefield2007].  These can be summed over sets of variants to generate a posterior probability a causal variant lies in any given set. The posterior probabilities are the ratio of evidence for each variant beign causal versus all the others. This is expressed as 
+\begin{equation}
+
+\end{equation}
 
 Bayesian methods are not directly influenced by study 
 
@@ -193,9 +196,7 @@ If we repeat analysing a list of credible sets, coverage is the amount of times 
 
 
 # Link with Frequentist 
-Link between a frequentist confidence interval and a bayesian credible interval with an uninformative prior. When Bayesian framework is used, but the prior belief is uninformative, the posterior probability is derived from the observed data, defined by the likelihood. An uninformative prior mathematically takes the form of uniform distribution, so that any probability in the distribution has the same proportion. This is similar to frequentist probabilities, which only use the data to estimate the unknown parameter. Under this framework, a parameter of interest credible interval, the posterior probability a SNP is causal can be interpreted 
-
-
+Link between a frequentist confidence interval and a bayesian credible interval with an uninformative prior. When Bayesian framework is used, but the prior belief is uninformative, the posterior probability is derived from the observed data, defined by the likelihood. An uninformative prior mathematically takes the form of uniform distribution, so that any probability in the distribution has the same proportion. This is similar to frequentist probabilities, which only use the data to estimate the unknown parameter. Under this framework, a parameter of interest credible interval, the posterior probability a SNP is causal can be interpreted. 
 
 ## Scope of the Study: 
 This study is done under the one causal variant assumption, meaning there is only one causal variant per credible set. This assumption creates some limitations that are outlined here. 
