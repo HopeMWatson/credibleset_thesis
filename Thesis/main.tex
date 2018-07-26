@@ -1,0 +1,76 @@
+%Document, Graphics, and Figures
+\documentclass[12pt,twoside]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\graphicspath{{images/}} %tells images where stored  
+
+%Printing settings
+\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm,bindingoffset=6mm]{geometry}
+%Headers and Footers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyhead[RO,LE]{Coverage Analysis in Fine Mapping Genetic Associations}
+\fancyfoot[LE,RO]{\thepage}
+\fancyfoot[LO,CE]{Chapter \thechapter}
+\fancyfoot[CO,RE]{Hope M. Watson}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+%Bibliography
+\usepackage{biblatex}
+\bibliographystyle{unsrt}
+\addbibresource{references.bib}
+
+%Title Page
+\title{Coverage Analysis in Fine Mapping Genetic Associations}
+\author{Hope M. Watson }
+\date{August 2018}
+
+\begin{document}
+
+\input{chapters/Titlepage.tex}
+
+\chapter*{Abstract}
+
+
+\chapter*{Acknowledgements}
+I would like to thank the many people who made this thesis possible. Without their help I would not have grown as an academic and begin to change how I see phenomena occurring in the world. I especially like to thank Dr. Chris Wallace and Dr. Jennifer Asimit, for continuously helping me all throughout this thesis and assisting me in the many questions I asked. I would like to thank Dr. Deborah Thompson for helping edit this thesis and being a devoted supervisor and mentor during my entire year, both academically and personally. 
+\chapter*{Dedication}
+For my Dad. Without your love, support, and encouragement I wouldn't be half the person I am today.
+
+\chapter*{Declaration}
+I declare that this thesis is the result of my own work. All sources are fully acknowledged and
+appropriately cited. The contents of this submission have not been used to any extent for a comparable
+purpose, i.e., in partial fulfillment of another degree or diploma at any university or institute of
+higher learning.
+
+\tableofcontents 
+\listoffigures
+
+\chapter{Introduction}
+\input{chapters/Introduction.tex}
+
+\chapter{Background}
+\input{chapters/Background.tex}
+
+\chapter{Methods}
+\input{chapters/Methods.tex}
+
+\chapter{Results}
+\input{chapters/Results.tex}
+
+\chapter{Discussion}
+\input{chapters/Discussion.tex}
+
+\chapter{Conclusion}
+\input{chapters/Conclusion.tex}
+
+\appendix 
+\chapter{Appendix}
+\input{chapters/Appendix.tex}
+
+\printbibliography
+
+
+\end{document}
